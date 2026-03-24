@@ -28,7 +28,7 @@ def tfidf_similarity(query: str, documents: List[SearchResult], db: Session) -> 
     sims = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:]).flatten() # type: ignore
     return sims.tolist()
 
-def rereank(query: str, results: List[SearchResult], db: Session, alpha: float = DEFAULT_ALPHA, beta: float = DEFAULT_BETA, gamma: float = DEFAULT_GAMMA) -> List[SearchResult]:
+def rerank(query: str, results: List[SearchResult], db: Session, alpha: float = DEFAULT_ALPHA, beta: float = DEFAULT_BETA, gamma: float = DEFAULT_GAMMA) -> List[SearchResult]:
     if not results:
         return []
     
