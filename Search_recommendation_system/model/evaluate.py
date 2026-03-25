@@ -45,4 +45,25 @@ def evaluate(k: int = 5):
     print(f"\n{'Query':<30} {'P@'+str(k):<10} {'NDCG@'+str(k):<10} {'#Relevant'}")
     print("-" * 65)
 
-    
+    for query in sorted(queries):
+        relevant_ids = ground_truth[query]
+        reranked = rerank(query, all_results, db)
+        ranked_ids = [r["id"] for r in reranked]
+
+        p = precision_at_k(ranked_ids, relevant_ids, k)
+        ndcg = ndcg_at_k(ranked_ids, relevant_ids, k)
+        p_at_k_scores.append(p)
+        ndcg_at_k_scores.append(ndcg)
+        print(f"{query:<30} {p:<10.4f} {ndcg:<10.3f} {len(relevant_ids)}")
+    avg_p = sum(p_at_k_scores) / len(p_at_k_scores)
+    avg_ndcg = sum(ndcg_at_k_scores) / len(ndcg_at_k_scores)
+    print("-" * 65)
+    print(f"{'AVERAGE':<30} {avg_p:<10.4f} {avg_ndcg:<10.3f}")
+    print(f"\n✓ Mean Precision@{k}  : {avg_p:.3f}")
+    print(f"✓ Mean NDCG@{k}      : {avg_ndcg:.3f}")
+
+    db.close()
+    return {"precision_at_k": avg_p, "ndcg_at_k": avg_ndcg}
+
+if __name__ == "__main__":
+    evaluate(k=5)
