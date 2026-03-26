@@ -54,7 +54,7 @@ def compute_recency_Score(query: str, result_id: int, db: Session, half_life_hou
     
     lam = math.log(2) / half_life_hours
     now = datetime.utcnow()
-    score = sum(math.exp(-lam * (now - c.timestamp).total_seconds() / 3600, 0) for c in clicks) # type: ignore
+    score = sum(math.exp(-lam * max((now - c.timestamp).total_seconds() / 3600, 0)) for c in clicks) # type: ignore
     return score
 
 def get_all_features(query: str, result_id: int, db: Session) -> dict:

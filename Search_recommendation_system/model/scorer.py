@@ -18,7 +18,7 @@ def _normalize(values: List[float]) -> List[float]:
         return [0.0] * len(values)
     return ((arr - mn) / (mx - mn)).tolist()
 
-def tfidf_similarity(query: str, documents: List[SearchResult], db: Session) -> List[float]:
+def tfidf_similarity(query: str, documents: List[SearchResult]) -> List[float]:
     #  TF-IDF similarity calculation
     if not documents:
         return []

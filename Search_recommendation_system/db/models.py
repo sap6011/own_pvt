@@ -7,7 +7,7 @@ Base = declarative_base()
 class SearchResult(Base):
     __tablename__ = 'search_results'
 
-    id = Column(Integer, primary_key=True, indext=True)
+    id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
     content = Column(String, nullable=False)
     url = Column(String, unique=True, nullable=False)
